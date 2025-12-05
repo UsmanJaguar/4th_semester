@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paraphrase Detector</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Paraphrase Detector</h1>
+            <p>Check if two sentences have the same meaning using AI.</p>
+        </header>
+
+        <main>
+            <div class="input-group">
+                <div class="input-box">
+                    <label for="sentence1">Sentence 1</label>
+                    <textarea id="sentence1" placeholder="Enter the first sentence here..."></textarea>
+                </div>
+                <div class="input-box">
+                    <label for="sentence2">Sentence 2</label>
+                    <textarea id="sentence2" placeholder="Enter the second sentence here..."></textarea>
+                </div>
+            </div>
+
+            <button id="checkBtn" class="primary-btn">
+                <span>Analyze Similarity</span>
+                <div class="loader" id="loader"></div>
+            </button>
+
+            <div id="result" class="result-card hidden">
+                <div class="score-circle">
+                    <svg viewBox="0 0 36 36" class="circular-chart">
+                        <path class="circle-bg"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                        />
+                        <path class="circle" id="score-circle-path"
+                            stroke-dasharray="0, 100"
+                            d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                        />
+                        <text x="18" y="20.35" class="percentage" id="score-text">0%</text>
+                    </svg>
+                </div>
+                <div class="result-details">
+                    <h2 id="verdict">Analyzing...</h2>
+                    <p id="similarity-label">Similarity Score</p>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
