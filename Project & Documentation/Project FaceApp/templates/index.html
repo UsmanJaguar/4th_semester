@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Face Detection / Recognition</title>
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Face Detection & Recognition</h1>
+      <p>Upload an image and the app will try to find your face (from `reference/`).</p>
+
+      <form id="uploadForm">
+        <input type="file" id="imageInput" name="image" accept="image/*" required />
+        <button type="submit">Upload</button>
+      </form>
+
+      <div id="result">
+        <h3>Result</h3>
+        <div id="preview"></div>
+        <ul id="facesList"></ul>
+      </div>
+    </div>
+
+    <script>
+      const form = document.getElementById('uploadForm');
+      const preview = document.getElementById('preview');
+      const facesList = document.getElementById('facesList');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const input = document.getElementById('imageInput');
+        if (!input.files || input.files.length === 0) return;
+
+        preview.innerHTML = 'Uploading...';
+        facesList.innerHTML = '';
+
+        const fd = new FormData();
+        fd.append('image', input.files[0]);
+
+        try {
+          const res = await fetch('/upload', { method: 'POST', body: fd });
+          const text = await res.text();
+          let data;
+          try { data = JSON.parse(text); } catch (err) { throw new Error('Server did not return JSON: ' + text); }
+
+          if (data.error) {
+            preview.innerHTML = `<div class="error">Error: ${data.error}</div>`;
+            if (data.details) {
+              facesList.innerHTML = `<li>${data.details}</li>`;
+            }
+            return;
+          }
+
+          // Show processed image
+          preview.innerHTML = `<img src="${data.image}" alt="processed" style="max-width:100%;height:auto;"/>`;
+
+          // List faces
+          facesList.innerHTML = '';
+          (data.faces || []).forEach(f => {
+            const li = document.createElement('li');
+            li.textContent = `${f.name} (box: ${f.box.join(', ')}, distance: ${f.distance !== null ? (f.distance).toFixed ? f.distance.toFixed(3) : f.distance : 'N/A'})`;
+            facesList.appendChild(li);
+          });
+        } catch (err) {
+          preview.innerHTML = `<div class="error">Upload failed: ${err.message}</div>`;
+          console.error(err);
+        }
+      });
+    </script>
+  </body>
+</html>

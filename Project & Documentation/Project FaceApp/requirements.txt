@@ -1,0 +1,7 @@
+
+# Minimal requirements (fallback uses OpenCV Haar cascades)
+Flask>=2.0
+opencv-python
+numpy
+Pillow
+werkzeug

@@ -1,0 +1,17 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  color: #222;
+}
+.container {
+  max-width: 720px;
+  margin: 36px auto;
+  padding: 18px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+h1 { margin-top: 0 }
+form { display: flex; gap: 8px; align-items: center }
+#result { margin-top: 18px }
+#preview img { border: 1px solid #ddd; padding: 4px; border-radius: 4px }
